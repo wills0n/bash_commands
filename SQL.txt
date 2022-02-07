@@ -1,0 +1,105 @@
+declare @id nvarchar(20);
+set @id='6167262';
+
+select sp.id,u.ID, u.USERNAME, sp.subscription_status, * from [ConditionalAccess].dbo.subscriptions_purchases sp 
+left join [Users].dbo.users u on u.ID=sp.SITE_USER_GUID
+where sp.SITE_USER_GUID=@id-- and sp.subscription_status<>2
+order by sp.subscription_status;
+
+select * from [Users].dbo.users_log ul where ul.USER_ID=@id
+order by ul.UPDATE_DATE DESC;
+
+
+select ID, USERNAME,* from [Users].dbo.users u where u.ID='17618032';
+
+select top 5000 * from [Users].dbo.users u -- where u.USERNAME='9095414080';
+
+select ID, SITE_USER_GUID, SUBSCRIPTION_CODE, subscription_status,* from [ConditionalAccess].dbo.subscriptions_purchases sp 
+where sp.SITE_USER_GUID='17708456' and sp.SUBSCRIPTION_CODE in ('20986', '21013');
+
+
+
+select * from [Users].dbo.users_dynamic_data dy where dy.USER_ID='17618032';
+
+select top 10 sp.SUBSCRIPTION_CODE, sp.SITE_USER_GUID,count(*) from [ConditionalAccess].dbo.subscriptions_purchases sp 
+group by  sp.SUBSCRIPTION_CODE, sp.SITE_USER_GUID
+
+
+update [ConditionalAccess].dbo.subscriptions_purchases set subscription_status='0' where id=2557080 and  SITE_USER_GUID='6167262';
+
+--dynamic data for users
+select * from Users.dbo.users_dynamic_data dd where dd.USER_ID in ('14366043','14191957') and dd.STATUS=1 order by USER_ID;
+
+
+--=======================
+select top 10 * from Users.dbo.users_dynamic_data dd
+
+--left join  [ConditionalAccess].dbo.subscriptions_purchases sp on sp.SITE_USER_GUID=dd.USER_ID
+where dd.DATA_TYPE='customer_type' and dd.DATA_VALUE='5'
+order by dd.id desc
+
+
+select u.id,u.USERNAME,u.CREATE_DATE,dd.DATA_VALUE,sp.CREATE_DATE from Users.dbo.users u
+left join  [ConditionalAccess].dbo.subscriptions_purchases sp on sp.SITE_USER_GUID=u.ID and sp.SUBSCRIPTION_CODE=20888
+inner join Users.dbo.users_dynamic_data dd on dd.USER_ID=u.ID and dd.DATA_TYPE='customer_type' and dd.DATA_VALUE in ('4','5')
+
+where u.CREATE_DATE>='2021-05-20' and LEN(u.USERNAME)=10 and sp.CREATE_DATE is null
+order by u.id 
+
+select u.CoGuid,* from Users.dbo.users u where u.id in (17589245,17589246,17589247)
+select * from Users.dbo.users_dynamic_data dd where dd.USER_ID in (17589245,17589246,17589247)
+
+select * from Users.dbo.users u where u.USERNAME='9644829681'
+
+select * from users.dbo.domains d where d.Description='9037432005' in (select u.CoGuid from Users.dbo.users u where u.id in (17589245,17589246,17589247))
+
+
+
+--=======================
+
+select ID, USERNAME,* from [Users].dbo.users u where u.USERNAME='9096480017';
+
+
+select top 100 * from TVinci.dbo.epg_channels  ch where ch.ID in (4543 );
+
+select * from TVinci.dbo.media_files f where f.id in (1795094,1357396)
+
+select * from media_types
+
+
+select * from streaming_companies_settings where ADAPTER_ID=609 and STATUS=1
+
+
+
+select * from streaming_companies
+
+
+declare @dev nvarchar(40);
+  set @dev='4E81ECBD0F3737FE';
+select * from [Users].[dbo].[users_domains]
+ where domain_id in (select domain_id from [Users].[dbo].[domains_devices] 
+ where device_id in (SELECT id FROM [Users].[dbo].[devices] 
+ where device_id=@dev)) order by Update_Date
+
+ select top 100 * from Users.dbo.users_domains;
+
+ SELECT top 100 * FROM [Users].[dbo].[domains_devices];
+
+ SELECT top 100 * FROM [Users].[dbo].[devices];
+
+
+declare @id nvarchar(20);
+  set @id='12593656';
+SELECT * FROM [Users].[dbo].[devices]
+where id in (SELECT [device_id] FROM [Users].[dbo].[domains_devices] 
+where domain_id in (SELECT [domain_id] FROM [Users].[dbo].[users_domains] where user_id=@id))
+
+
+select * from Users.dbo.users_domains where user_id=14366043;
+
+--Избранное
+
+select top 100 * from Users.dbo.users_favorites uf 
+where uf.SITE_USER_GUID='5606631' and uf.IS_ACTIVE=1 and uf.ITEM_CODE='833685' order by ITEM_CODE
+
+update Users.dbo.users_favorites set IS_ACTIVE='0' where id=7121763 and  SITE_USER_GUID='5606631';

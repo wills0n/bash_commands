@@ -1,0 +1,7 @@
+
+ansible-playbook -u VNurmukhametov tve_users/add_oetp.yml -i inventory-prod -e "target=API"
+zabbix_agentd -p | egrep '(agent.hostname|system.hostname)'
+ifconfig | grep inet
+egrep -v '(^#|^$)' /etc/zabbix/zabbix_agentd.conf
+for i in {1..2};do echo $i; ssh xxx$i "sudo uptime -a"; done
+for file in $(ls -a ~/remote_history/);do echo $file;sudo  mv "$file" "$file%.txt"; done
