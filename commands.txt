@@ -1,4 +1,5 @@
 
+alias da='eval `ssh-agent -s` && /usr/bin/ssh-add /home/villson/.ssh/villson'
 ansible-playbook -u VNurmukhametov tve_users/add_oetp.yml -i inventory-prod -e "target=API"
 zabbix_agentd -p | egrep '(agent.hostname|system.hostname)'
 ifconfig | grep inet
