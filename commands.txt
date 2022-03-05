@@ -5,4 +5,8 @@ zabbix_agentd -p | egrep '(agent.hostname|system.hostname)'
 ifconfig | grep inet
 egrep -v '(^#|^$)' /etc/zabbix/zabbix_agentd.conf
 for i in {1..2};do echo $i; ssh xxx$i "sudo uptime -a"; done
+for i in {1..2};do echo $i; ssh cbb$i "sudo yum install httpd -y"; done
 for file in $(ls -a ~/remote_history/);do echo $file;sudo  mv "$file" "$file%.txt"; done
+for i in {1..10000}; do time dig @213.234.192.1 bksmos10.beeline.tv; done 2>&1 |awk '/real/ {print $2}'|sed -e s/0m// -e s/s//|awk '$1 >= 0.100'
+for i in {1..15};do echo $i; ssh adapter$i "grep -aE '0HME4PJPJDBMD' /var/log/kaltura/adapters/adapter_sso/*_12*"; done > ~/login.txt
+ansible adapt -i inventory -m shell -a "grep -aE '0HME4PJPJDBMD' /var/log/kaltura/adapters/adapter_sso/*_12*"
